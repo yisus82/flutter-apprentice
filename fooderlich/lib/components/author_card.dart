@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fooderlich/circle_image.dart';
-import 'package:fooderlich/fooderlich_theme.dart';
+
+import '../fooderlich_theme.dart';
+import 'circle_image.dart';
 
 class AuthorCard extends StatefulWidget {
   final String authorName;
@@ -15,7 +16,7 @@ class AuthorCard extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<AuthorCard> createState() => _AuthorCardState();
+  _AuthorCardState createState() => _AuthorCardState();
 }
 
 class _AuthorCardState extends State<AuthorCard> {
@@ -59,7 +60,7 @@ class _AuthorCardState extends State<AuthorCard> {
                 _isFavorited = !_isFavorited;
               });
             },
-          )
+          ),
         ],
       ),
     );
