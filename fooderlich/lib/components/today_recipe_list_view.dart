@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../components/components.dart';
 import '../models/models.dart';
-import 'components.dart';
 
 class TodayRecipeListView extends StatelessWidget {
   final List<ExploreRecipe> recipes;
@@ -22,8 +22,10 @@ class TodayRecipeListView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Recipes of the Day 🍳',
-              style: Theme.of(context).textTheme.headline1),
+          Text(
+            'Recipes of the Day 🍳',
+            style: Theme.of(context).textTheme.headline1,
+          ),
           const SizedBox(height: 16),
           Container(
             height: 400,
@@ -53,7 +55,7 @@ class TodayRecipeListView extends StatelessWidget {
     } else if (recipe.cardType == RecipeCardType.card3) {
       return Card3(recipe: recipe);
     } else {
-      throw Exception('This card doesn\'t exist yet');
+      throw Exception("This card doesn't exist yet");
     }
   }
 }
