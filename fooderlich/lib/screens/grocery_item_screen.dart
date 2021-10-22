@@ -33,6 +33,7 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
   TimeOfDay _timeOfDay = TimeOfDay.now();
   Color _currentColor = Colors.green;
   int _currentSliderValue = 0;
+  bool _isComplete = false;
 
   @override
   void initState() {
@@ -46,6 +47,7 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
       final date = originalItem.date;
       _timeOfDay = TimeOfDay(hour: date.hour, minute: date.minute);
       _dueDate = date;
+      _isComplete = originalItem.isComplete;
     }
 
     _nameController.addListener(() {
@@ -71,6 +73,12 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
           IconButton(
             icon: const Icon(Icons.check),
             onPressed: () {
+              if (_nameController.text.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Item Name is required')));
+                return;
+              }
+
               final groceryItem = GroceryItem(
                 id: widget.originalItem?.id ?? const Uuid().v1(),
                 name: _nameController.text,
@@ -126,6 +134,7 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
                   _timeOfDay.hour,
                   _timeOfDay.minute,
                 ),
+                isComplete: _isComplete,
               ),
             ),
           ],
