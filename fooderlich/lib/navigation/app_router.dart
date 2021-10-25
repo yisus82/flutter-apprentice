@@ -5,7 +5,9 @@ import '../screens/grocery_item_screen.dart';
 import '../screens/home.dart';
 import '../screens/login_screen.dart';
 import '../screens/onboarding_screen.dart';
+import '../screens/profile_screen.dart';
 import '../screens/splash_screen.dart';
+import '../screens/webview_screen.dart';
 
 class AppRouter extends RouterDelegate
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {
@@ -66,8 +68,9 @@ class AppRouter extends RouterDelegate
               onCreate: (item) {
                 // No create
               }),
-        // TODO: Add Profile Screen
-        // TODO: Add WebView Screen
+        if (profileManager.didSelectUser)
+          ProfileScreen.page(profileManager.getUser),
+        if (profileManager.didTapOnRaywenderlich) WebViewScreen.page(),
       ],
     );
   }
@@ -85,8 +88,13 @@ class AppRouter extends RouterDelegate
       groceryManager.groceryItemTapped(-1);
     }
 
-    // TODO: Handle state when user closes profile screen
-    // TODO: Handle state when user closes WebView screen
+    if (route.settings.name == FooderlichPages.profilePath) {
+      profileManager.tapOnProfile(false);
+    }
+
+    if (route.settings.name == FooderlichPages.raywenderlich) {
+      profileManager.tapOnRaywenderlich(false);
+    }
 
     return true;
   }

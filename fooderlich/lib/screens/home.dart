@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../models/app_state_manager.dart';
 import '../models/fooderlich_pages.dart';
+import '../models/profile_manager.dart';
 import 'explore_screen.dart';
 import 'grocery_screen.dart';
 import 'recipes_screen.dart';
@@ -90,7 +91,8 @@ class _HomeState extends State<Home> {
           ),
         ),
         onTap: () {
-          // TODO: home -> profile
+          Provider.of<ProfileManager>(context, listen: false)
+              .tapOnProfile(true);
         },
       ),
     );
