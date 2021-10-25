@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/models.dart';
+import '../screens/grocery_item_screen.dart';
 import '../screens/home.dart';
 import '../screens/login_screen.dart';
 import '../screens/onboarding_screen.dart';
@@ -45,8 +46,26 @@ class AppRouter extends RouterDelegate
           OnboardingScreen.page(),
         if (appStateManager.isOnboardingComplete)
           Home.page(appStateManager.getSelectedTab),
-        // TODO: Create new item
-        // TODO: Select GroceryItemScreen
+        if (groceryManager.isCreatingNewItem)
+          GroceryItemScreen.page(
+            onCreate: (item) {
+              groceryManager.addItem(item);
+            },
+            onUpdate: (item, index) {
+              // No update
+            },
+          ),
+        // 1
+        if (groceryManager.selectedIndex != -1)
+          GroceryItemScreen.page(
+              item: groceryManager.selectedGroceryItem,
+              index: groceryManager.selectedIndex,
+              onUpdate: (item, index) {
+                groceryManager.updateItem(item, index);
+              },
+              onCreate: (item) {
+                // No create
+              }),
         // TODO: Add Profile Screen
         // TODO: Add WebView Screen
       ],
@@ -62,7 +81,10 @@ class AppRouter extends RouterDelegate
       appStateManager.logout();
     }
 
-    // TODO: Handle state when user closes grocery item screen
+    if (route.settings.name == FooderlichPages.groceryItemDetails) {
+      groceryManager.groceryItemTapped(-1);
+    }
+
     // TODO: Handle state when user closes profile screen
     // TODO: Handle state when user closes WebView screen
 

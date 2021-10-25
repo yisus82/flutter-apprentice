@@ -14,7 +14,23 @@ class GroceryItemScreen extends StatefulWidget {
   final int index;
   final bool isUpdating;
 
-  // TODO: GroceryItemScreen MaterialPage Helper
+  static MaterialPage page({
+    GroceryItem? item,
+    int index = -1,
+    required Function(GroceryItem) onCreate,
+    required Function(GroceryItem, int) onUpdate,
+  }) {
+    return MaterialPage(
+      name: FooderlichPages.groceryItemDetails,
+      key: ValueKey(FooderlichPages.groceryItemDetails),
+      child: GroceryItemScreen(
+        originalItem: item,
+        index: index,
+        onCreate: onCreate,
+        onUpdate: onUpdate,
+      ),
+    );
+  }
 
   const GroceryItemScreen({
     Key? key,
@@ -37,6 +53,7 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
   TimeOfDay _timeOfDay = TimeOfDay.now();
   Color _currentColor = Colors.green;
   int _currentSliderValue = 0;
+  bool _isComplete = false;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +63,12 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
           IconButton(
             icon: const Icon(Icons.check),
             onPressed: () {
+              if (_nameController.text.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Item Name is required')));
+                return;
+              }
+
               final groceryItem = GroceryItem(
                 id: widget.originalItem?.id ?? const Uuid().v1(),
                 name: _nameController.text,
@@ -107,6 +130,7 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
                   _timeOfDay.hour,
                   _timeOfDay.minute,
                 ),
+                isComplete: _isComplete,
               ),
             ),
           ],
@@ -220,7 +244,8 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
                   context: context,
                   initialDate: currentDate,
                   firstDate: currentDate,
-                  lastDate: DateTime(currentDate.year + 5),
+                  lastDate: DateTime(
+                      currentDate.year + 5, currentDate.month, currentDate.day),
                 );
 
                 setState(() {
@@ -367,6 +392,7 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
       final date = originalItem.date;
       _timeOfDay = TimeOfDay(hour: date.hour, minute: date.minute);
       _dueDate = date;
+      _isComplete = originalItem.isComplete;
     }
 
     _nameController.addListener(() {
