@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/app_state_manager.dart';
-import '../models/fooderlich_pages.dart';
-import '../models/profile_manager.dart';
+import '../models/models.dart';
 import 'explore_screen.dart';
 import 'grocery_screen.dart';
 import 'recipes_screen.dart';
@@ -40,7 +38,11 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Consumer<AppStateManager>(
-      builder: (context, appStateManager, child) {
+      builder: (
+        context,
+        appStateManager,
+        child,
+      ) {
         return Scaffold(
           appBar: AppBar(
             title: Text(
@@ -51,7 +53,10 @@ class _HomeState extends State<Home> {
               profileButton(),
             ],
           ),
-          body: IndexedStack(index: widget.currentTab, children: pages),
+          body: IndexedStack(
+            index: widget.currentTab,
+            children: pages,
+          ),
           bottomNavigationBar: BottomNavigationBar(
             selectedItemColor:
                 Theme.of(context).textSelectionTheme.selectionColor,
@@ -86,9 +91,7 @@ class _HomeState extends State<Home> {
       child: GestureDetector(
         child: const CircleAvatar(
           backgroundColor: Colors.transparent,
-          backgroundImage: AssetImage(
-            'assets/profile_pics/person_stef.jpeg',
-          ),
+          backgroundImage: AssetImage('assets/profile_pics/person_stef.jpeg'),
         ),
         onTap: () {
           Provider.of<ProfileManager>(context, listen: false)
