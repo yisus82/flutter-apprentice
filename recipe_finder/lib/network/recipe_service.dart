@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'model_converter.dart';
 import 'model_response.dart';
 import 'recipe_model.dart';
+import 'service_interface.dart';
 
 part 'recipe_service.chopper.dart';
 
@@ -12,7 +13,9 @@ final String apiId = dotenv.get('EDAMAM_APP_ID');
 final String apiUrl = dotenv.get('EDAMAM_API_URL');
 
 @ChopperApi()
-abstract class RecipeService extends ChopperService {
+abstract class RecipeService extends ChopperService
+    implements ServiceInterface {
+  @override
   @Get(path: 'search')
   Future<Response<Result<APIRecipeQuery>>> queryRecipes(
       @Query('q') String query, @Query('from') int from, @Query('to') int to);
