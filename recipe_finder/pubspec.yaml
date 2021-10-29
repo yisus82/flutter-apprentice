@@ -1,4 +1,4 @@
-name: recipe_finde
+name: recipe_finder
 description: Recipe Finder
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -22,6 +22,8 @@ dependencies:
   http: ^0.13.3
   chopper: ^4.0.1
   logging: ^1.0.1
+  provider: ^6.0.0
+  equatable: ^2.0.3
 
 dev_dependencies:
   flutter_test:
