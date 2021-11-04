@@ -4,8 +4,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 
+import 'data/moor/moor_repository.dart';
 import 'data/repository.dart';
-import 'data/sqlite/sqlite_repository.dart';
 import 'network/recipe_service.dart';
 import 'network/service_interface.dart';
 import 'ui/main_screen.dart';
@@ -14,7 +14,7 @@ Future<void> main() async {
   _setupLogging();
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
-  final repository = SqliteRepository();
+  final repository = MoorRepository();
   await repository.init();
 
   runApp(MyApp(repository: repository));
